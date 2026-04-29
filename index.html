@@ -142,10 +142,10 @@
       overflow: hidden;
     }
 
-    #frame-canvas {
+    #hero-video {
       width: 100%;
       height: 100%;
-      object-fit: contain;
+      object-fit: cover;
       display: block;
     }
 
@@ -164,7 +164,7 @@
       transition: opacity 0.6s;
     }
 
-    #frame-canvas {
+    #hero-video {
       position: relative;
       z-index: 1;
     }
@@ -728,7 +728,9 @@
   <!-- Scroll-Driven Canvas Section -->
   <section class="canvas-section" id="hero">
     <div class="canvas-sticky">
-      <canvas id="frame-canvas"></canvas>
+      <video id="hero-video" autoplay muted playsinline>
+        <source src="首頁動畫.mp4" type="video/mp4">
+      </video>
 
       <!-- Overlay: Hero Title -->
       <div class="overlay-text overlay-hero" id="overlay-hero">
@@ -866,20 +868,11 @@
 
   <script>
     /* ══════════════════════════════════════════
-       Auto-Play Frame Animation Engine
+       Video Animation Engine
        ══════════════════════════════════════════ */
 
-    const canvas = document.getElementById('frame-canvas');
-    const ctx = canvas.getContext('2d');
-    const TOTAL_FRAMES = 192;
-    const ANIM_DURATION = 22000; // 22 seconds total
-    const frames = [];
-    let loadedCount = 0;
-    let currentFrame = 0;
-    let animStartTime = null;
-    let animStarted = false;
+    const video = document.getElementById('hero-video');
 
-    // Overlay zones: [start, end] as 0-1 progress
     const ZONES = [
       { el: () => document.getElementById('overlay-hero'),   start: 0.00, end: 0.18 },
       { el: () => document.getElementById('overlay-left'),   start: 0.26, end: 0.44 },
@@ -887,101 +880,30 @@
       { el: () => document.getElementById('overlay-bottom'), start: 0.76, end: 0.97 },
     ];
 
-    function preloadFrames() {
-      for (let i = 1; i <= TOTAL_FRAMES; i++) {
-        const img = new Image();
-        const num = String(i).padStart(4, '0');
-        img.src = `frames/frame-${num}.png`;
-        img.onload = () => {
-          loadedCount++;
-          if (loadedCount === 1) {
-            resizeCanvas();
-            drawFrame(0);
-            // Start animation after first frame ready
-            if (!animStarted) {
-              animStarted = true;
-              requestAnimationFrame(autoPlay);
-            }
-          }
-          if (loadedCount === TOTAL_FRAMES) {
-            document.body.classList.add('loaded');
-          }
-        };
-        frames.push(img);
-      }
-    }
-
-    function resizeCanvas() {
-      const dpr = window.devicePixelRatio || 1;
-      canvas.width = window.innerWidth * dpr;
-      canvas.height = window.innerHeight * dpr;
-      canvas.style.width = window.innerWidth + 'px';
-      canvas.style.height = window.innerHeight + 'px';
-      ctx.scale(dpr, dpr);
-    }
-
-    function drawFrame(index) {
-      const img = frames[index];
-      if (!img || !img.complete) return;
-      const w = window.innerWidth;
-      const h = window.innerHeight;
-      ctx.clearRect(0, 0, w, h);
-      const imgRatio = img.naturalWidth / img.naturalHeight;
-      const canvasRatio = w / h;
-      let drawW, drawH, drawX, drawY;
-      if (canvasRatio > imgRatio) {
-        drawW = w; drawH = w / imgRatio; drawX = 0; drawY = (h - drawH) / 2;
-      } else {
-        drawH = h; drawW = h * imgRatio; drawX = (w - drawW) / 2; drawY = 0;
-      }
-      ctx.drawImage(img, drawX, drawY, drawW, drawH);
-    }
-
-    /* ══════════════════════════════════════════
-       Auto-Play Loop
-       ══════════════════════════════════════════ */
-
-    function autoPlay(timestamp) {
-      if (!animStartTime) animStartTime = timestamp;
-      const elapsed = timestamp - animStartTime;
-      const progress = Math.min(1, elapsed / ANIM_DURATION);
-
-      // Advance frames
-      const frameIndex = Math.min(TOTAL_FRAMES - 1, Math.floor(progress * TOTAL_FRAMES));
-      if (frameIndex !== currentFrame) {
-        currentFrame = frameIndex;
-        drawFrame(frameIndex);
-      }
-
-      // Update overlays
-      ZONES.forEach(({ el, start, end }) => {
-        updateOverlay(el(), progress, start, end);
-      });
-
-      if (progress < 1) {
-        requestAnimationFrame(autoPlay);
-      } else {
-        // Animation complete — hide all overlays, show end image
-        ZONES.forEach(({ el }) => el() && el().classList.remove('visible'));
-        const endEl = document.getElementById('overlay-end');
-        if (endEl) endEl.classList.add('visible');
-      }
-    }
-
     function updateOverlay(el, progress, start, end) {
       if (!el) return;
       const fadeDur = 0.04;
-      const inStart  = start;
-      const inEnd    = start + fadeDur;
-      const outStart = end - fadeDur;
-      const outEnd   = end;
-
-      if (progress >= inEnd && progress <= outStart) {
+      if (progress >= start + fadeDur && progress <= end - fadeDur) {
         el.classList.add('visible');
       } else {
         el.classList.remove('visible');
       }
     }
+
+    video.addEventListener('canplay', () => {
+      document.body.classList.add('loaded');
+    });
+
+    video.addEventListener('timeupdate', () => {
+      const progress = video.duration ? video.currentTime / video.duration : 0;
+      ZONES.forEach(({ el, start, end }) => updateOverlay(el(), progress, start, end));
+    });
+
+    video.addEventListener('ended', () => {
+      ZONES.forEach(({ el }) => el() && el().classList.remove('visible'));
+      const endEl = document.getElementById('overlay-end');
+      if (endEl) endEl.classList.add('visible');
+    });
 
     /* ══════════════════════════════════════════
        Scroll: progress bar + side panel
@@ -1032,12 +954,6 @@
        Init
        ══════════════════════════════════════════ */
 
-    window.addEventListener('resize', () => {
-      resizeCanvas();
-      drawFrame(currentFrame);
-    });
-
-    preloadFrames();
   </script>
 </body>
 </html>
