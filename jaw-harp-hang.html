@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>口簧琴 &amp; 手碟 — Resonate Formula 共振公式</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Outfit:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg-void: #050505;
+      --glass-bg: rgba(180, 155, 110, 0.06);
+      --glass-border: rgba(210, 175, 120, 0.12);
+      --glass-bg-hover: rgba(180, 155, 110, 0.10);
+      --gold-primary: #c9a84c;
+      --gold-light: #e8d28a;
+      --gold-dim: #8a7235;
+      --text-primary: #f0ece4;
+      --text-secondary: rgba(240, 236, 228, 0.55);
+      --text-muted: rgba(240, 236, 228, 0.3);
+      --glow-gold: 0 0 60px rgba(201, 168, 76, 0.15), 0 0 120px rgba(201, 168, 76, 0.05);
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --radius-sm: 10px;
+    }
+
+    html {
+      background: var(--bg-void);
+      color: var(--text-primary);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 300;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background: var(--bg-void);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 3px; }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      pointer-events: none;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 256px 256px;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90vw;
+      height: 90vh;
+      background: radial-gradient(ellipse at center, rgba(201, 168, 76, 0.07) 0%, transparent 65%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Navigation */
+    .nav {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      padding: 14px 32px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(24px) saturate(1.4);
+      -webkit-backdrop-filter: blur(24px) saturate(1.4);
+      border: 1px solid var(--glass-border);
+      border-radius: 60px;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .nav:hover {
+      background: var(--glass-bg-hover);
+      border-color: rgba(210, 175, 120, 0.2);
+    }
+
+    .nav-logo {
+      font-family: 'Cinzel', serif;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      color: var(--gold-primary);
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      transition: color 0.3s;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--gold-primary);
+      transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .nav-links a:hover { color: var(--gold-light); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .back-link {
+      position: fixed;
+      top: 28px;
+      left: 28px;
+      z-index: 100;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px) saturate(1.3);
+      -webkit-backdrop-filter: blur(20px) saturate(1.3);
+      border: 1px solid var(--glass-border);
+      border-radius: 40px;
+      color: var(--text-secondary);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .back-link:hover {
+      color: var(--gold-light);
+      border-color: rgba(210, 175, 120, 0.22);
+      background: var(--glass-bg-hover);
+    }
+
+    /* Tag */
+    .tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold-primary);
+      margin-bottom: 20px;
+      padding: 5px 16px;
+      border: 1px solid rgba(201, 168, 76, 0.25);
+      border-radius: 20px;
+    }
+
+    /* Page intro */
+    .page-intro {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 180px 6% 60px;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: riseIn 1s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+    }
+
+    .page-intro h1 {
+      font-family: 'Cinzel', serif;
+      font-weight: 600;
+      font-size: clamp(40px, 6vw, 80px);
+      line-height: 1.05;
+      letter-spacing: 0.02em;
+      margin-bottom: 24px;
+      text-shadow: 0 0 80px rgba(201, 168, 76, 0.25);
+    }
+
+    .page-intro .lead {
+      font-size: clamp(15px, 1.6vw, 19px);
+      font-weight: 400;
+      line-height: 1.8;
+      color: var(--text-primary);
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    /* Feature */
+    .feature {
+      position: relative;
+      z-index: 1;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 60px 6% 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .feature-text {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: riseIn 1s cubic-bezier(0.16, 1, 0.3, 1) 0.25s forwards;
+    }
+
+    .feature-text h2 {
+      font-family: 'Cinzel', serif;
+      font-weight: 600;
+      font-size: clamp(28px, 3.5vw, 48px);
+      line-height: 1.15;
+      letter-spacing: 0.02em;
+      margin-bottom: 22px;
+      text-shadow: 0 0 60px rgba(201, 168, 76, 0.2);
+    }
+
+    .feature-text p {
+      font-size: clamp(14px, 1.4vw, 17px);
+      font-weight: 400;
+      line-height: 1.85;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+      max-width: 500px;
+    }
+
+    .feature-text p.muted {
+      color: var(--text-secondary);
+      font-weight: 300;
+    }
+
+    .feature-meta {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 32px;
+      max-width: 500px;
+    }
+
+    .meta-item {
+      padding: 16px 20px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      transition: border-color 0.3s, background 0.3s;
+    }
+
+    .meta-item:hover {
+      border-color: rgba(210, 175, 120, 0.22);
+      background: var(--glass-bg-hover);
+    }
+
+    .meta-label {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold-primary);
+      margin-bottom: 6px;
+    }
+
+    .meta-value {
+      font-family: 'Cinzel', serif;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--text-primary);
+    }
+
+    /* Feature media (photo) */
+    .feature-media {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      aspect-ratio: 3 / 4;
+      box-shadow:
+        0 0 80px rgba(201, 168, 76, 0.13),
+        0 0 160px rgba(201, 168, 76, 0.05),
+        0 30px 60px rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      transform: translateY(40px) scale(0.97);
+      animation: riseIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
+    }
+
+    .feature-media::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(201, 168, 76, 0.08) 0%, transparent 40%, transparent 60%, rgba(0, 0, 0, 0.25) 100%);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .feature-media::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 1px solid rgba(210, 175, 120, 0.15);
+      border-radius: var(--radius-lg);
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .feature-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: contrast(1.05) brightness(0.92) saturate(0.95);
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .feature-media:hover img {
+      transform: scale(1.03);
+    }
+
+    .feature.feature-reverse .feature-media {
+      order: -1;
+    }
+
+    .feature.feature-reverse .feature-media::before {
+      background: linear-gradient(225deg, rgba(201, 168, 76, 0.08) 0%, transparent 40%, transparent 60%, rgba(0, 0, 0, 0.25) 100%);
+    }
+
+    /* Corner accents */
+    .corner {
+      position: absolute;
+      width: 28px;
+      height: 28px;
+      border: 1px solid var(--gold-primary);
+      z-index: 4;
+      pointer-events: none;
+      opacity: 0.65;
+    }
+    .corner.tl { top: 14px; left: 14px; border-right: none; border-bottom: none; }
+    .corner.tr { top: 14px; right: 14px; border-left: none; border-bottom: none; }
+    .corner.bl { bottom: 14px; left: 14px; border-right: none; border-top: none; }
+    .corner.br { bottom: 14px; right: 14px; border-left: none; border-top: none; }
+
+    @keyframes riseIn {
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Audio toggle button */
+    .audio-toggle {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      z-index: 200;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: 1px solid var(--glass-border);
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px) saturate(1.4);
+      -webkit-backdrop-filter: blur(20px) saturate(1.4);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.3s, background 0.3s;
+      outline: none;
+    }
+
+    .audio-toggle:hover {
+      border-color: rgba(210, 175, 120, 0.3);
+      background: var(--glass-bg-hover);
+    }
+
+    .audio-toggle svg {
+      width: 22px;
+      height: 22px;
+      fill: var(--gold-primary);
+      transition: opacity 0.3s;
+    }
+
+    /* Pulse rings when playing */
+    .audio-toggle::before,
+    .audio-toggle::after {
+      content: '';
+      position: absolute;
+      inset: -8px;
+      border-radius: 50%;
+      border: 1px solid rgba(201, 168, 76, 0.35);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .audio-toggle.playing::before {
+      animation: audioPulse 3s ease-out infinite;
+    }
+
+    .audio-toggle.playing::after {
+      animation: audioPulse 3s ease-out infinite;
+      animation-delay: 1.5s;
+    }
+
+    @keyframes audioPulse {
+      0%   { opacity: 0.5; transform: scale(1); }
+      100% { opacity: 0;   transform: scale(1.6); }
+    }
+
+    /* Quote */
+    .quote-section {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 80px 6% 120px;
+      text-align: center;
+    }
+
+    .quote-mark {
+      font-family: 'Cinzel', serif;
+      font-size: 80px;
+      color: var(--gold-primary);
+      opacity: 0.25;
+      line-height: 0.5;
+      margin-bottom: 20px;
+    }
+
+    .quote-text {
+      font-family: 'Cinzel', serif;
+      font-weight: 400;
+      font-size: clamp(20px, 2.5vw, 32px);
+      line-height: 1.6;
+      color: var(--text-primary);
+      font-style: italic;
+    }
+
+    .quote-author {
+      margin-top: 28px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold-primary);
+    }
+
+    /* Footer */
+    .footer {
+      position: relative;
+      z-index: 1;
+      padding: 40px 6%;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+
+    .footer-logo {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.15em;
+      color: var(--gold-dim);
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .page-intro { padding: 140px 6% 40px; }
+      .feature {
+        grid-template-columns: 1fr;
+        padding: 40px 6% 60px;
+        gap: 50px;
+      }
+      .feature.feature-reverse .feature-media {
+        order: 0;
+      }
+      .feature-media, .hang-visual {
+        max-width: 420px;
+        margin: 0 auto;
+      }
+      .feature-meta {
+        grid-template-columns: 1fr 1fr;
+      }
+      .nav { padding: 10px 20px; gap: 16px; }
+      .nav-links { gap: 16px; }
+      .nav-links a { font-size: 12px; }
+      .back-link { top: auto; bottom: 20px; left: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Back -->
+  <a href="index.html" class="back-link">← 返回首頁</a>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">Resonate Formula</a>
+    <ul class="nav-links">
+      <li><a href="index.html#features">聲頻樂器</a></li>
+      <li><a href="index.html#philosophy">信念</a></li>
+      <li><a href="index.html#contact">共演邀約</a></li>
+    </ul>
+  </nav>
+
+  <!-- Page Intro -->
+  <section class="page-intro">
+    <span class="tag">Crystalline Voices</span>
+    <h1>口簧琴 &amp; 手碟</h1>
+    <p class="lead">口簧琴的泛音在口腔中共鳴成宇宙的低語，手碟的金屬振動如水波般擴散<br>兩者交織成大地與天空之間的對話</p>
+  </section>
+
+  <!-- Feature: 口簧琴 -->
+  <section class="feature">
+    <div class="feature-text">
+      <span class="tag">Jaw Harp · 竹製口簧</span>
+      <h2>口中的宇宙<br>一簧的千音</h2>
+      <p>口簧琴是人類最古老的共鳴樂器之一，遍佈全球不同文化 — 台灣泰雅族、阿美族的竹製口簧、西伯利亞的 Khomus、越南的 Đàn môi。演奏者以口腔為共鳴腔，透過呼吸、舌位與嘴型的微調，從單一簧片奏出豐富的泛音層次。</p>
+      <p class="muted">每一次撥動，簧片的振動穿透顱骨，直接被身體聆聽。在共振公式的儀式中，口簧琴如細語、如星塵，為音景注入古老部落的靈性頻率。</p>
+      <div class="feature-meta">
+        <div class="meta-item">
+          <div class="meta-label">Origin</div>
+          <div class="meta-value">Global · Tribal</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Material</div>
+          <div class="meta-value">Bamboo · Metal</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Resonance</div>
+          <div class="meta-value">Oral Cavity</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Character</div>
+          <div class="meta-value">Ancestral Whisper</div>
+        </div>
+      </div>
+    </div>
+    <div class="feature-media">
+      <span class="corner tl"></span>
+      <span class="corner tr"></span>
+      <span class="corner bl"></span>
+      <span class="corner br"></span>
+      <img src="口簧琴.jpg" alt="口簧琴 Jaw Harp">
+    </div>
+  </section>
+
+  <!-- Feature: 手碟 (CSS visualization) -->
+  <section class="feature feature-reverse">
+    <div class="feature-text">
+      <span class="tag">Hang Drum · 水波金屬</span>
+      <h2>金屬的花瓣<br>水波的頻率</h2>
+      <p>手碟誕生於 2000 年的瑞士伯恩，由兩片半球形金屬熔接而成 — 頂端圍繞中央「ding」的數個音階凹陷，依次被敲擊便流出如水晶般通透的音響。它的聲音兼具打擊樂的節拍與旋律樂器的音高。</p>
+      <p class="muted">手碟的泛音豐富而綿長，每一次輕撫都像將聲波投入靜水 — 圓形漣漪層層向外擴散。在共振公式的儀式中，它承載節奏、也承載空靈，是連接身體律動與意識漂浮的橋樑。</p>
+      <div class="feature-meta">
+        <div class="meta-item">
+          <div class="meta-label">Origin</div>
+          <div class="meta-value">Bern, Swiss</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Material</div>
+          <div class="meta-value">Nitrided Steel</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Tone Fields</div>
+          <div class="meta-value">8 – 14 Notes</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Character</div>
+          <div class="meta-value">Crystalline Pulse</div>
+        </div>
+      </div>
+    </div>
+    <div class="feature-media">
+      <span class="corner tl"></span>
+      <span class="corner tr"></span>
+      <span class="corner bl"></span>
+      <span class="corner br"></span>
+      <img src="手碟.JPG" alt="手碟 Handpan">
+    </div>
+  </section>
+
+  <!-- Quote -->
+  <section class="quote-section">
+    <div class="quote-mark">&ldquo;</div>
+    <p class="quote-text">一簧在口，千音在心<br>水波漣漪處，天地開始對話</p>
+    <div class="quote-author">— Resonate Formula</div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-logo">RESONATE FORMULA</div>
+    <div>© 2026 Resonate Formula 共振公式. All rights reserved.</div>
+  </footer>
+
+  <!-- Audio -->
+  <audio id="bgAudio" src="handpan.wav" loop preload="auto" autoplay></audio>
+
+  <!-- Audio Toggle -->
+  <button class="audio-toggle playing" id="audioToggle" aria-label="Toggle audio">
+    <svg id="iconPlay" viewBox="0 0 24 24" style="display:none"><path d="M8 5v14l11-7z"/></svg>
+    <svg id="iconPause" viewBox="0 0 24 24"><path d="M6 19h4V5H6zm8-14v14h4V5z"/></svg>
+  </button>
+
+  <script>
+    const audio = document.getElementById('bgAudio');
+    const btn   = document.getElementById('audioToggle');
+    const iconPlay  = document.getElementById('iconPlay');
+    const iconPause = document.getElementById('iconPause');
+
+    audio.volume = 0.8;
+
+    function setPlaying(isPlaying) {
+      iconPlay.style.display  = isPlaying ? 'none'  : 'block';
+      iconPause.style.display = isPlaying ? 'block' : 'none';
+      btn.classList.toggle('playing', isPlaying);
+    }
+
+    function tryPlay() {
+      audio.play().then(() => setPlaying(true)).catch(() => {
+        setPlaying(false);
+        const resume = () => {
+          audio.play().then(() => setPlaying(true));
+          document.removeEventListener('click', resume);
+          document.removeEventListener('keydown', resume);
+        };
+        document.addEventListener('click', resume);
+        document.addEventListener('keydown', resume);
+      });
+    }
+
+    tryPlay();
+
+    btn.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play().then(() => setPlaying(true));
+      } else {
+        audio.pause();
+        setPlaying(false);
+      }
+    });
+  </script>
+
+</body>
+</html>

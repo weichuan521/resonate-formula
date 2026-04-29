@@ -1,0 +1,11 @@
+# 影格序列（533MB，不適合 git）
+frames/
+
+# Node.js 套件（不上傳，用 npm install 重建）
+node_modules/
+
+# Claude Code 本地設定
+.claude/settings.local.json
+
+# Playwright 暫存 log
+.playwright-mcp/
