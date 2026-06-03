@@ -6,3 +6,6 @@ node_modules/
 
 # Playwright 暫存 log
 .playwright-mcp/
+
+# 本機預覽用臨時伺服器（艾菈，勿 deploy）
+_preview_server.js
