@@ -1,4 +1,51 @@
+# Resonate Formula 共振公式 — 明確允許搜尋與 AI 搜尋爬蟲
+
+# 通用
 User-agent: *
+Allow: /
+
+# Google 搜尋
+User-agent: Googlebot
+Allow: /
+
+# Bing 搜尋
+User-agent: Bingbot
+Allow: /
+
+# OpenAI：ChatGPT 搜尋
+User-agent: OAI-SearchBot
+Allow: /
+
+# OpenAI：使用者觸發
+User-agent: ChatGPT-User
+Allow: /
+
+# OpenAI：模型訓練
+User-agent: GPTBot
+Allow: /
+
+# Anthropic：搜尋
+User-agent: Claude-SearchBot
+Allow: /
+
+# Anthropic：使用者觸發
+User-agent: Claude-User
+Allow: /
+
+# Anthropic：模型訓練
+User-agent: ClaudeBot
+Allow: /
+
+# Perplexity 搜尋
+User-agent: PerplexityBot
+Allow: /
+
+# Perplexity：使用者觸發
+User-agent: Perplexity-User
+Allow: /
+
+# Google：Gemini 訓練與 grounding 控制符，不影響 Google 搜尋收錄與排名
+User-agent: Google-Extended
 Allow: /
 
 Sitemap: https://resonate-formula3.netlify.app/sitemap.xml
