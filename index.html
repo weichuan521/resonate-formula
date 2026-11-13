@@ -1122,11 +1122,12 @@
     .overlay-end img { height: auto; }
     .intro-section { position: relative; z-index: 10; max-width: 860px; margin: 0 auto; padding: 120px 6% 0; text-align: center; text-wrap: pretty; }
     .intro-lead { font-size: clamp(18px, 2vw, 23px); line-height: 1.9; letter-spacing: 0.04em; color: var(--text-primary); margin-bottom: 32px; }
-    .intro-lead strong { color: var(--gold-light); font-weight: 500; }
+    .intro-lead strong { display: block; color: var(--gold-light); font-weight: 500; }
+    .intro-section .ph, .intro-section .w { display: inline-block; max-width: 100%; }
     .intro-body { font-size: 15px; line-height: 2; color: rgba(240, 236, 228, 0.75); margin-bottom: 6px; }
     .intro-fit { margin-top: 40px; padding-top: 28px; border-top: 1px solid var(--glass-border); font-size: 14px; line-height: 1.9; color: rgba(240, 236, 228, 0.75); }
     .intro-fit.intro-base { margin-top: 24px; padding-top: 0; border-top: none; }
-    .intro-fit span { display: block; margin-bottom: 8px; font-size: 12px; letter-spacing: 0.3em; color: var(--gold-primary); }
+    .intro-fit > span:first-child { display: block; margin-bottom: 8px; font-size: 12px; letter-spacing: 0.3em; color: var(--gold-primary); }
     .sub-contact { position: relative; z-index: 1; text-align: center; padding: 64px 6% 72px; border-top: 1px solid rgba(255,255,255,0.04); }
     .sub-contact p { color: var(--text-secondary); font-size: 15px; line-height: 1.8; margin-bottom: 20px; }
     @media (max-width: 768px) {
@@ -1292,11 +1293,11 @@
 
   <!-- Intro -->
   <section class="intro-section" id="about" aria-label="關於共振公式">
-    <p class="intro-lead"><strong>Resonate Formula｜共振公式</strong>融合人聲吟唱、喉唱、Didgeridoo、口簧琴、手碟、傳統吹奏樂器與電子音景，創造穿越身體、情緒與意識的沉浸式聲頻旅程。</p>
-    <p class="intro-body">我們相信，音樂可以溫柔地喚醒身體，也可以帶領意識進入更深的聆聽。</p>
-    <p class="intro-body">邀請你進入這場聲頻現場，讓身體記得如何共振，讓心再次聽見自己。</p>
-    <p class="intro-fit"><span>適合場域</span>音樂節、藝術節、身心靈活動、療癒工作坊、生活市集、靜心聚會、沉浸式展演與跨界表演合作。</p>
-    <p class="intro-fit intro-base"><span>演出基地</span>來自台灣，以台北為基地，可至全台演出。</p>
+    <p class="intro-lead"><strong>Resonate Formula｜共振公式</strong><span class="ph"><span class="w">融合人聲吟唱、</span><span class="w">喉唱、</span><span class="w">Didgeridoo、</span><span class="w">口簧琴、</span><span class="w">手碟、</span><span class="w">傳統吹奏樂器與電子音景，</span></span><span class="ph"><span class="w">創造穿越身體、</span><span class="w">情緒與意識的沉浸式聲頻旅程。</span></span></p>
+    <p class="intro-body"><span class="w">我們相信，</span><span class="w">音樂可以溫柔地喚醒身體，</span><span class="w">也可以帶領意識進入更深的聆聽。</span></p>
+    <p class="intro-body"><span class="w">邀請你進入這場聲頻現場，</span><span class="w">讓身體記得如何共振，</span><span class="w">讓心再次聽見自己。</span></p>
+    <p class="intro-fit"><span>適合場域</span><span class="w">音樂節、</span><span class="w">藝術節、</span><span class="w">身心靈活動、</span><span class="w">療癒工作坊、</span><span class="w">生活市集、</span><span class="w">靜心聚會、</span><span class="w">沉浸式展演與跨界表演合作。</span></p>
+    <p class="intro-fit intro-base"><span>演出基地</span><span class="w">來自台灣，</span><span class="w">以台北為基地，</span><span class="w">可至全台演出。</span></p>
   </section>
 
   <!-- Feature Cards -->
