@@ -4,6 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>吹奏樂器 &amp; 電子音景 — Resonate Formula 共振公式</title>
+  <meta name="description" content="共振公式吹奏樂器與電子音景現場演出，可邀約音樂節、藝術節、市集，時長 30–90 分鐘。">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="canonical" href="https://resonate-formula3.netlify.app/flute-synth.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Resonate Formula 共振公式">
+  <meta property="og:locale" content="zh_TW">
+  <meta property="og:title" content="吹奏樂器 &amp; 電子音景 — Resonate Formula 共振公式">
+  <meta property="og:description" content="共振公式吹奏樂器與電子音景現場演出，可邀約音樂節、藝術節、市集，時長 30–90 分鐘。">
+  <meta property="og:url" content="https://resonate-formula3.netlify.app/flute-synth.html">
+  <meta property="og:image" content="https://resonate-formula3.netlify.app/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="吹奏樂器 &amp; 電子音景 — Resonate Formula 共振公式">
+  <meta name="twitter:description" content="共振公式吹奏樂器與電子音景現場演出，可邀約音樂節、藝術節、市集，時長 30–90 分鐘。">
+  <meta name="twitter:image" content="https://resonate-formula3.netlify.app/og-image.jpg">
+
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -529,9 +546,41 @@
       .nav-links a { font-size: 12px; }
       .back-link { top: auto; bottom: 20px; left: 20px; }
     }
+  
+    /* ─── 邀演按鈕（新增） ─── */
+    .btn-invite, .invite-fab {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 48px; padding: 0 26px; border-radius: 60px;
+      font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 500; letter-spacing: 0.1em;
+      color: #050505; text-decoration: none; white-space: nowrap;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold-primary));
+      box-shadow: var(--glow-gold), 0 6px 24px rgba(0, 0, 0, 0.45);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s;
+    }
+    .btn-invite:hover, .invite-fab:hover { transform: translateY(-2px); box-shadow: 0 0 40px rgba(201, 168, 76, 0.45), 0 8px 28px rgba(0, 0, 0, 0.5); }
+    .invite-fab { position: fixed; right: 24px; bottom: 24px; z-index: 101; min-width: 56px; min-height: 56px; }
+    .sub-contact { position: relative; z-index: 1; text-align: center; padding: 64px 6% 72px; border-top: 1px solid rgba(255,255,255,0.04); }
+    .sub-contact p { color: var(--text-secondary); font-size: 15px; line-height: 1.8; margin-bottom: 20px; }
+    @media (max-width: 768px) {
+      .invite-fab { right: 14px; bottom: 14px; min-width: 48px; min-height: 48px; padding: 0 20px; }
+        .tag, .resonator-role, .ig-badge, .show-type, .meta-label, .audio-toggle .tooltip { font-size: 12px; }
+      .nav { width: calc(100% - 24px); padding: 4px 14px; gap: 10px; }
+      .nav-logo { display: none; }
+      .nav-links { flex: 1; min-width: 0; gap: 0; overflow-x: auto; white-space: nowrap; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+      .nav-links::-webkit-scrollbar { display: none; }
+      .nav-links li { flex: 0 0 auto; }
+      .nav-links a { display: flex; align-items: center; min-height: 44px; padding: 0 12px; font-size: 13px; }
+      .nav-links a::after { bottom: 8px; left: 12px; }
+      .nav-links a:hover::after { width: calc(100% - 24px); }
+    }
+    /* 邀演按鈕避開右下角的音訊開關 */
+    .invite-fab { right: 28px; bottom: 100px; }
+    @media (max-width: 768px) { .invite-fab { right: 20px; bottom: 108px; } }
   </style>
 </head>
 <body>
+
+  <a href="https://wa.me/886939817221?text=%E4%BD%A0%E5%A5%BD%EF%BC%8C%E6%88%91%E6%83%B3%E9%82%80%E8%AB%8B%E5%85%B1%E6%8C%AF%E5%85%AC%E5%BC%8F%E6%BC%94%E5%87%BA" target="_blank" rel="noopener" class="invite-fab" aria-label="邀請共振公式演出">邀演</a>
 
   <!-- Ambient audio -->
   <audio id="ambient-audio" src="網頁ＦＬＵＴＥ.wav" loop preload="auto" autoplay></audio>
@@ -559,7 +608,7 @@
     <a href="index.html" class="nav-logo">Resonate Formula</a>
     <ul class="nav-links">
       <li><a href="index.html#features">聲頻樂器</a></li>
-      <li><a href="index.html#philosophy">信念</a></li>
+      <li><a href="index.html#resonators-stats">信念</a></li>
       <li><a href="index.html#contact">共演邀約</a></li>
     </ul>
   </nav>
@@ -602,7 +651,7 @@
       <span class="corner tr"></span>
       <span class="corner bl"></span>
       <span class="corner br"></span>
-      <img src="洞簫.jpg" alt="吹奏樂器">
+      <img src="flute.webp" width="1200" height="1800" loading="lazy" alt="吹奏樂器">
     </div>
   </section>
 
@@ -637,7 +686,7 @@
       <span class="corner tr"></span>
       <span class="corner bl"></span>
       <span class="corner br"></span>
-      <img src="合成器.jpg" alt="電子音景 Electronic Soundscape">
+      <img src="synth.webp" width="1200" height="1500" loading="lazy" alt="電子音景 Electronic Soundscape">
     </div>
   </section>
 
@@ -646,6 +695,12 @@
     <div class="quote-mark">&ldquo;</div>
     <p class="quote-text">一口氣化作千種音色<br>電流在空氣中寫下此刻無法重複的形狀</p>
     <div class="quote-author">— Resonate Formula</div>
+  </section>
+
+  <!-- 聯絡入口 -->
+  <section class="sub-contact">
+    <p>想邀請共振公式到你的活動現場？</p>
+    <a href="https://wa.me/886939817221?text=%E4%BD%A0%E5%A5%BD%EF%BC%8C%E6%88%91%E6%83%B3%E9%82%80%E8%AB%8B%E5%85%B1%E6%8C%AF%E5%85%AC%E5%BC%8F%E6%BC%94%E5%87%BA" target="_blank" rel="noopener" class="btn-invite">邀請演出</a>
   </section>
 
   <!-- Footer -->

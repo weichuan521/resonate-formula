@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://resonate-formula3.netlify.app/sitemap.xml

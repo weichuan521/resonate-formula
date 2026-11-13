@@ -4,6 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Resonate Formula 共振公式 — 聲頻儀式旅程</title>
+  <meta name="description" content="共振公式：可邀請現場演出的聲頻樂團，以喉唱、口簧琴、手碟與電子音景共演，適合音樂節與市集，時長 30–90 分鐘。">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="canonical" href="https://resonate-formula3.netlify.app/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Resonate Formula 共振公式">
+  <meta property="og:locale" content="zh_TW">
+  <meta property="og:title" content="Resonate Formula 共振公式 — 聲頻儀式旅程">
+  <meta property="og:description" content="共振公式：可邀請現場演出的聲頻樂團，以喉唱、口簧琴、手碟與電子音景共演，適合音樂節與市集，時長 30–90 分鐘。">
+  <meta property="og:url" content="https://resonate-formula3.netlify.app/">
+  <meta property="og:image" content="https://resonate-formula3.netlify.app/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Resonate Formula 共振公式 — 聲頻儀式旅程">
+  <meta name="twitter:description" content="共振公式：可邀請現場演出的聲頻樂團，以喉唱、口簧琴、手碟與電子音景共演，適合音樂節與市集，時長 30–90 分鐘。">
+  <meta name="twitter:image" content="https://resonate-formula3.netlify.app/og-image.jpg">
+
 
   <!-- Fonts: Cinzel for display, Outfit for body -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -184,6 +201,7 @@
       transform: translateY(0);
     }
 
+    .overlay-text h1,
     .overlay-text h2 {
       font-family: 'Cinzel', serif;
       font-weight: 600;
@@ -1084,12 +1102,42 @@
       }
       .overlay-hero { top: 18%; }
       .overlay-bottom { bottom: 18%; }
-      .overlay-text h2 { font-size: clamp(22px, 6.5vw, 38px); }
+      .overlay-text h1, .overlay-text h2 { font-size: clamp(22px, 6.5vw, 38px); }
       .overlay-end img { width: clamp(220px, 70vw, 320px); }
+    }
+  
+    /* ─── 邀演按鈕（新增） ─── */
+    .btn-invite, .invite-fab {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 48px; padding: 0 26px; border-radius: 60px;
+      font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 500; letter-spacing: 0.1em;
+      color: #050505; text-decoration: none; white-space: nowrap;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold-primary));
+      box-shadow: var(--glow-gold), 0 6px 24px rgba(0, 0, 0, 0.45);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s;
+    }
+    .btn-invite:hover, .invite-fab:hover { transform: translateY(-2px); box-shadow: 0 0 40px rgba(201, 168, 76, 0.45), 0 8px 28px rgba(0, 0, 0, 0.5); }
+    .invite-fab { position: fixed; right: 24px; bottom: 24px; z-index: 101; min-width: 56px; min-height: 56px; }
+    .overlay-end img { height: auto; }
+    .sub-contact { position: relative; z-index: 1; text-align: center; padding: 64px 6% 72px; border-top: 1px solid rgba(255,255,255,0.04); }
+    .sub-contact p { color: var(--text-secondary); font-size: 15px; line-height: 1.8; margin-bottom: 20px; }
+    @media (max-width: 768px) {
+      .invite-fab { right: 14px; bottom: 14px; min-width: 48px; min-height: 48px; padding: 0 20px; }
+      .tag, .resonator-role, .ig-badge, .show-type, .meta-label, .audio-toggle .tooltip { font-size: 12px; }
+      .nav { width: calc(100% - 24px); padding: 4px 8px; gap: 6px; }
+      .nav-logo { display: none; }
+      .nav-links { flex: 1; min-width: 0; gap: 0; overflow-x: auto; white-space: nowrap; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+      .nav-links::-webkit-scrollbar { display: none; }
+      .nav-links li { flex: 0 0 auto; }
+      .nav-links a { display: flex; align-items: center; min-height: 44px; padding: 0 6px; font-size: 12px; letter-spacing: 0.02em; }
+      .nav-links a::after { bottom: 8px; left: 6px; }
+      .nav-links a:hover::after { width: calc(100% - 12px); }
     }
   </style>
 </head>
 <body>
+
+  <a href="https://wa.me/886939817221?text=%E4%BD%A0%E5%A5%BD%EF%BC%8C%E6%88%91%E6%83%B3%E9%82%80%E8%AB%8B%E5%85%B1%E6%8C%AF%E5%85%AC%E5%BC%8F%E6%BC%94%E5%87%BA" target="_blank" rel="noopener" class="invite-fab" aria-label="邀請共振公式演出">邀演</a>
 
   <!-- Scroll Progress -->
   <div class="scroll-progress" id="scrollProgress"></div>
@@ -1119,13 +1167,13 @@
   <!-- Scroll-Driven Canvas Section -->
   <section class="canvas-section" id="hero">
     <div class="canvas-sticky">
-      <video id="hero-video" autoplay muted playsinline>
-        <source src="首頁動畫.mp4" type="video/mp4">
+      <video id="hero-video" autoplay muted playsinline poster="hero-poster.jpg" preload="auto">
+        <source src="hero.mp4" type="video/mp4">
       </video>
 
       <!-- Overlay: Hero Title -->
       <div class="overlay-text overlay-hero" id="overlay-hero">
-        <h2>共振公式</h2>
+        <h1>共振公式</h1>
       </div>
 
       <!-- Overlay: Left -->
@@ -1145,7 +1193,7 @@
 
       <!-- End overlay: logo image shown after animation completes -->
       <div class="overlay-text overlay-end" id="overlay-end">
-        <img src="resonate_formula.png" alt="Resonate Formula">
+        <img src="resonate-formula.webp" width="1200" height="243" alt="Resonate Formula">
       </div>
     </div>
   </section>
@@ -1181,14 +1229,14 @@
   <!-- Resonators -->
   <section class="resonators-section" id="resonators">
     <div class="resonators-header">
-      <a href="https://www.instagram.com/resonate.formula/" target="_blank" rel="noopener"><img src="logo1.png" class="section-logo" alt="Resonate Formula"></a>
+      <a href="https://www.instagram.com/resonate.formula/" target="_blank" rel="noopener"><img src="logo.webp" width="614" height="605" loading="lazy" class="section-logo" alt="Resonate Formula"></a>
       <h2>共振者</h2>
       <p>每一位成員都是頻率的媒介，也是儀式的共同創造者</p>
     </div>
     <div class="resonators-grid">
       <div class="resonator-card">
         <div class="resonator-photo">
-          <a href="https://www.instagram.com/rudolf_cheng/" target="_blank" rel="noopener"><img src="一凡2.png" alt="鄭一凡"></a>
+          <a href="https://www.instagram.com/rudolf_cheng/" target="_blank" rel="noopener"><img src="member-yifan.webp" width="666" height="635" loading="lazy" alt="鄭一凡"></a>
         </div>
         <div class="resonator-icon">◈</div>
         <div class="resonator-role">Pulse Resonator · 脈動共振者</div>
@@ -1197,7 +1245,7 @@
       </div>
       <div class="resonator-card">
         <div class="resonator-photo">
-          <a href="https://www.instagram.com/linglingwu_oo/" target="_blank" rel="noopener"><img src="吳凜2.png" alt="吳凜"></a>
+          <a href="https://www.instagram.com/linglingwu_oo/" target="_blank" rel="noopener"><img src="member-wulin.webp" width="644" height="716" loading="lazy" alt="吳凜"></a>
         </div>
         <div class="resonator-icon">✦</div>
         <div class="resonator-role">Sonic Resonator · 音頻共振者</div>
@@ -1206,7 +1254,7 @@
       </div>
       <div class="resonator-card">
         <div class="resonator-photo">
-          <a href="https://www.instagram.com/cymatics521/" target="_blank" rel="noopener"><img src="立恩2.png" alt="愛立恩"></a>
+          <a href="https://www.instagram.com/cymatics521/" target="_blank" rel="noopener"><img src="member-lien.webp" width="641" height="659" loading="lazy" alt="愛立恩"></a>
         </div>
         <div class="resonator-icon">◯</div>
         <div class="resonator-role">Flow Resonator · 流動共振者</div>
@@ -1219,7 +1267,7 @@
   <!-- Philosophy -->
   <section class="specs-section" id="resonators-stats">
     <div class="specs-header">
-      <a href="https://www.instagram.com/resonate.formula/" target="_blank" rel="noopener"><img src="logo1.png" class="section-logo" alt="Resonate Formula"></a>
+      <a href="https://www.instagram.com/resonate.formula/" target="_blank" rel="noopener"><img src="logo.webp" width="614" height="605" loading="lazy" class="section-logo" alt="Resonate Formula"></a>
       <h2>我們相信</h2>
       <p>音樂是連結身體、情緒與宇宙意識的橋樑</p>
     </div>
@@ -1246,7 +1294,7 @@
   <!-- Live / Video -->
   <section class="live-section" id="live">
     <div class="specs-header">
-      <a href="https://www.youtube.com/@resonateformula" target="_blank" rel="noopener"><img src="logo1.png" class="section-logo" alt="Resonate Formula"></a>
+      <a href="https://www.youtube.com/@resonateformula" target="_blank" rel="noopener"><img src="logo.webp" width="614" height="605" loading="lazy" class="section-logo" alt="Resonate Formula"></a>
       <h2>現場記錄</h2>
       <p>現場即是作品本身——每一場都是當下不可複製的共創生成</p>
     </div>
@@ -1278,7 +1326,7 @@
     <div class="social-grid">
       <a class="ig-card" href="https://www.instagram.com/p/DKGJ0dMTYZB/" target="_blank" rel="noopener">
         <div class="ig-thumb">
-          <img src="ig/ig1.png" alt="共振公式室內聲頻現場" loading="lazy">
+          <img src="ig/ig1.webp" width="423" height="480" loading="lazy" alt="共振公式室內聲頻現場">
           <span class="ig-play" aria-hidden="true"></span>
           <span class="ig-badge">Instagram</span>
         </div>
@@ -1286,7 +1334,7 @@
       </a>
       <a class="ig-card" href="https://www.instagram.com/reel/DJ_zmfFzHBS/" target="_blank" rel="noopener">
         <div class="ig-thumb">
-          <img src="ig/ig2.png" alt="共振公式即興編創現場" loading="lazy">
+          <img src="ig/ig2.webp" width="462" height="532" loading="lazy" alt="共振公式即興編創現場">
           <span class="ig-play" aria-hidden="true"></span>
           <span class="ig-badge">Instagram</span>
         </div>
@@ -1294,7 +1342,7 @@
       </a>
       <a class="ig-card" href="https://www.instagram.com/reel/DLZ5uc2SVDg/" target="_blank" rel="noopener">
         <div class="ig-thumb">
-          <img src="ig/ig3.png" alt="共振公式戶外舞台演出" loading="lazy">
+          <img src="ig/ig3.webp" width="462" height="487" loading="lazy" alt="共振公式戶外舞台演出">
           <span class="ig-play" aria-hidden="true"></span>
           <span class="ig-badge">Instagram</span>
         </div>
@@ -1302,7 +1350,7 @@
       </a>
       <a class="ig-card" href="https://www.instagram.com/p/DPQG_55ACTV/" target="_blank" rel="noopener">
         <div class="ig-thumb">
-          <img src="ig/ig4.png" alt="共振公式夜間火光儀式" loading="lazy">
+          <img src="ig/ig4.webp" width="624" height="406" loading="lazy" alt="共振公式夜間火光儀式">
           <span class="ig-play" aria-hidden="true"></span>
           <span class="ig-badge">Instagram</span>
         </div>
@@ -1332,7 +1380,7 @@
 
   <!-- CTA -->
   <section class="cta-section" id="contact">
-    <img src="logo1.png" class="section-logo" alt="Resonate Formula">
+    <img src="logo.webp" width="614" height="605" loading="lazy" class="section-logo" alt="Resonate Formula">
     <h2>邀請共振公式進入你的場域</h2>
     <p>每一次共演都是一場享受音頻臨在的共振旅程</p>
     <div class="booking-grid">
@@ -1365,10 +1413,14 @@
       </div>
     </div>
     <div class="contact-row">
+      <a href="https://wa.me/886939817221?text=%E4%BD%A0%E5%A5%BD%EF%BC%8C%E6%88%91%E6%83%B3%E9%82%80%E8%AB%8B%E5%85%B1%E6%8C%AF%E5%85%AC%E5%BC%8F%E6%BC%94%E5%87%BA" target="_blank" rel="noopener" class="contact-link">WhatsApp</a>
       <a href="https://www.instagram.com/resonate.formula/" target="_blank" rel="noopener" class="contact-link">◈ Instagram</a>
       <a href="https://www.facebook.com/resonate.formula" target="_blank" rel="noopener" class="contact-link">◯ Facebook</a>
       <a href="https://www.youtube.com/@resonateformula" target="_blank" rel="noopener" class="contact-link">▷ YouTube</a>
       <a href="mailto:weichuan521@gmail.com" class="contact-link">✉ Email</a>
+      <!-- LINE 帳號尚未取得，拿到後取消註解並填入真實連結。
+      <a href="LINE_URL" target="_blank" rel="noopener" class="contact-link">LINE</a>
+      -->
     </div>
   </section>
 
